@@ -1,17 +1,22 @@
 #ifndef USER_H
 #define USER_H
-class user
+
+// constants
+const int MAX_CLIENTS = 10;
+const int MAX_CHAR_LENGTH = 256;
+
+struct user
 {
   public:
   //Constructors
-  user(char un[], char pw, int bal = 0);
-  
-  //functions
-  char* GetUsername(){return m_username;}
-  private:
-  char m_username[256];
-  char m_password[256];
+  user();
+  user(char un[], char pw[], int bal = 0);
+
+ //member values
+  char m_username[MAX_CHAR_LENGTH];
+  char m_password[MAX_CHAR_LENGTH];
   int m_balance;
 };
+
 
 #endif
