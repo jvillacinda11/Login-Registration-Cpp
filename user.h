@@ -13,8 +13,8 @@ struct user
   user(char un[], char pw[], int bal = 0);
 
  //member values
-  char m_username[MAX_CHAR_LENGTH];
-  char m_password[MAX_CHAR_LENGTH];
+  char m_username[MAX_CHAR_LENGTH] = "";
+  char m_password[MAX_CHAR_LENGTH] = "";
   int m_balance;
 };
 

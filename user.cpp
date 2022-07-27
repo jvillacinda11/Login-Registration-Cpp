@@ -5,10 +5,8 @@ using namespace std;
 
 user::user()
 {
-  cout << "Default Constructor!\n";
-  m_username[MAX_CHAR_LENGTH] = {};
-  m_password[MAX_CHAR_LENGTH] = {};
-  m_balance                   = 0;
+  //cout << "Default Constructor!\n";
+  m_balance                   = -1;
 }
 
 user::user(char un[], char pw[], int bal)

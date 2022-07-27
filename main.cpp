@@ -1,13 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <cstring>
 #include "user.h"
 using namespace std;
 
  
 //prototype
-void Menu();
+void Menu(user clients[]);
 void ReadClientList(ifstream &clientlist, user clients[], int numClients);
+void Register(user clients[]);
 
 
 
@@ -35,21 +37,22 @@ int main()
       exit(EXIT_FAILURE);
     }   
   }
-  
-  Menu();
-
+  ReadClientList(inFile, allClients, MAX_CLIENTS);
   inFile.close();
+
+  Menu(allClients);
+
   return 0;
 
 }
 
-void Menu()
+void Menu(user clients[])
 {
   int choice;
-  char cont;
+ // char cont;
   //ask user what they want to do
-  do
-  {
+ // do
+  //{
     cout << "What would you like to do?\n\n";
     cout << "1. Login \n2. Register\n";
     cin >> choice;
@@ -57,19 +60,19 @@ void Menu()
     switch (choice)
     {
     case 1:
-      cout << "You chose login!";
+      cout << "You chose login!\n";
       break;
 
     case 2:
-      cout << "You chose register!";
+      Register(clients);
       break;
     default:
-      cout << "invalid entry";
+      cout << "invalid entry\n";
       break;
     }
-    cout << "Would you like to continue? (Y/N): ";
-    cin >> cont;
-  } while (cont == 'y' || cont == 'Y');
+  //  cout << "Would you like to continue? (Y/N): ";
+  //  cin >> cont;
+  //} while (cont == 'y' || cont == 'Y');
   
 }
 
@@ -94,4 +97,62 @@ void ReadClientList(ifstream &clientlist, user clients[], int numClients)
     }
   }
   
+}
+
+void Register(user clients[])
+{ 
+
+  if(clients[MAX_CLIENTS - 1].m_balance == -1)
+  {
+  int i;
+  char username[MAX_CHAR_LENGTH];
+  char password[MAX_CHAR_LENGTH];
+  int balance;
+  bool usernameAvail;
+  //open ofstream as append to add new user
+  ofstream outFile("clients.txt", ios::app);
+  
+ do
+  {
+    usernameAvail = true;
+    cout << "Enter a username: ";
+    cin >> username;
+
+  //check if username is already taken
+  for ( i = 0; i < MAX_CLIENTS ; ++i)
+  {    
+    if(clients[i].m_balance == -1)
+    {
+      break;
+    }
+
+    if(strcmp(username, clients[i].m_username) == 0 )
+    {
+      cout << "username already taken! Choose another one...\n";
+      usernameAvail = false;
+      break;
+
+    }
+  }
+  }while(usernameAvail == false);
+
+  cout << "Enter a password: ";
+  cin >> password;
+
+  cout << "Enter initial deposit: $";
+  cin >> balance;
+
+  outFile << username << "\t\t\t\t\t\t\t\t\t\t"
+          << password << "\t\t\t\t\t\t\t\t\t\t"
+          << balance  << endl;
+  
+  outFile.close();
+
+  cout << "Welcome "<< username <<" please restart the program and login! ";
+  }
+  else
+  {
+    cout << "Maximum clients already reached. Sorry for the inconvience...";
+  }
+  //potentially could return a user object and use that to login in the same session
 }
