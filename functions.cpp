@@ -7,11 +7,13 @@ using namespace std;
 
 void CreateClientList()
 {
+  //open clients.txt. if it doesn't exist it will create one
   ofstream outFile("clients.txt");
   outFile << "Username\t\t\t\t\t\t\t\t\t\t"
           << "Password\t\t\t\t\t\t\t\t\t\t"
           << "Balance"
           << endl;
+  //close new clients.txt
   outFile.close();
 }
 
@@ -67,6 +69,8 @@ void ReadClientList(ifstream &clientlist, user clients[], int numClients)
 void Register(user clients[])
 {
   //check if you have enough space in clients.txt
+  //By default an empty user object has a -1 balance
+  //this checks if the last user in the array is empty
   if (clients[MAX_CLIENTS - 1].m_balance == -1)
   {
     int i;
@@ -101,17 +105,21 @@ void Register(user clients[])
         }
       }
     } while (usernameAvail == false);
-
+  
+  //once unique username is created, the user can continue 
+  //to enter info
     cout << "Enter a password: ";
     cin >> password;
 
     cout << "Enter initial deposit: $";
     cin >> balance;
 
+  //append user info to clients.txt
     outFile << username << "\t\t\t\t\t\t\t\t\t\t"
             << password << "\t\t\t\t\t\t\t\t\t\t"
             << balance << endl;
 
+  //close clients.txt
     outFile.close();
   
     cout << "Welcome "<< username <<"! Please restart and login.\n";
@@ -140,10 +148,11 @@ do
 
    for(i = 0; i < MAX_CLIENTS; ++i)
    {
+    //check if username matches any in clients.txt
      if (strcmp(clients[i].m_username, un) == 0)
      {
        usernameCheck = true;
-
+      //check if password matches the password for the user on clients.txt
        if(strcmp(clients[i].m_password, pw) == 0)
        {
          passwordCheck = true;
@@ -152,6 +161,9 @@ do
      }    
    }
 
+  //Once loop is finished it will tell whether or not username and password
+  //matched. The following if statements will let the use know which was
+  //wrong
   if(usernameCheck == false)
   {
     cout << "\nUsername does not Exist! Try again!\n\n";
@@ -162,7 +174,9 @@ do
    cout << "\nIncorrect password! Try again!\n\n";
    usernameCheck = false;
   }
-
+  
+//if both are right then the user is logged in and can view their current
+//balance
  }while(usernameCheck == false && passwordCheck == false);
 
   if (usernameCheck == true && passwordCheck == true)
