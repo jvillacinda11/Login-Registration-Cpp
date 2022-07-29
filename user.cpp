@@ -17,3 +17,10 @@ user::user(char un[], char pw[], int bal)
   m_balance = bal;
 }
 
+user::user(const user &obj)
+{
+  cout << "copy Constructor!\n";
+  strcpy(m_username, obj.m_username);
+  strcpy(m_password, obj.m_password);
+  m_balance = obj.m_balance;
+}
